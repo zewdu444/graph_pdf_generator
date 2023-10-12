@@ -1,12 +1,7 @@
-import {
-  Box,
-  Divider,
-  Stack,
-  Typography,
-  Container,
-  colors,
-} from "@mui/material";
-import React, { forwardRef } from "react";
+import { Box, Divider, Stack, Typography, Container } from "@mui/material";
+import React, { forwardRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchArrest } from "../redux/arrest/ArrestSlice";
 import {
   LineChart,
   Line,
@@ -14,42 +9,27 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
 } from "recharts";
 export const PrintComponent = forwardRef((props, ref) => {
+  const dispatch = useDispatch();
+  const { arrestStore, status } = useSelector((state) => state.arrest);
   const currentDate = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = currentDate.toLocaleDateString(undefined, options);
-  const data = [
-    {
-      date_of_year: "2011",
-      burglary: 4000,
-    },
-    {
-      date_of_year: "2012",
-      burglary: 3000,
-    },
-    {
-      date_of_year: "2013",
-      burglary: 2000,
-    },
-    {
-      date_of_year: "2014",
-      burglary: 2780,
-    },
-    {
-      date_of_year: "2015",
-      burglary: 1890,
-    },
-    {
-      date_of_year: "2016",
-      burglary: 2390,
-    },
-    {
-      date_of_year: "2017",
-      burglary: 800,
-    },
-  ];
+  const burglaryData = [];
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchArrest());
+    }
+  }, [dispatch, status]);
+  if (arrestStore.data) {
+    arrestStore.data.forEach((item) => {
+      burglaryData.push({
+        date_of_year: item.data_year,
+        burglary: item.Burglary,
+      });
+    });
+  }
 
   return (
     <div style={{ display: "block" }}>
@@ -110,30 +90,52 @@ export const PrintComponent = forwardRef((props, ref) => {
               </Typography>
               <Stack
                 sx={{
-                  backgroundColor: "white",
-                  width: "90%",
-                  my: 3,
-                  mx: 6,
-                  borderRadius: "35px",
+                  display: "flex",
+                  flexDirection: "row",
+                  ml: -2,
                 }}
               >
-                <LineChart
-                  width={500}
-                  height={350}
-                  data={data}
-                  margin={{ top: 20, right: 30, bottom: 5 }}
+                <Typography
+                  variant='body1'
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    rotate: "270deg",
+                    height: "4px",
+                    alignSelf: "center",
+                    fontWeight: "bold",
+                  }}
                 >
-                  <CartesianGrid y={1000} stroke='lightgray' />
-                  <XAxis dataKey='date_of_year' />
-                  <YAxis />
-                  <Tooltip />
-                  <Line
-                    type='linear'
-                    dataKey='burglary'
-                    stroke='blue'
-                    dot={false}
-                  />
-                </LineChart>
+                  Arrests
+                </Typography>
+
+                <Stack
+                  sx={{
+                    backgroundColor: "white",
+                    width: "90%",
+                    my: 3,
+                    mx: 1,
+                    borderRadius: "35px",
+                  }}
+                >
+                  <LineChart
+                    width={1000}
+                    height={350}
+                    data={burglaryData}
+                    margin={{ top: 20, right: 30, bottom: 5 }}
+                  >
+                    <CartesianGrid y={1000} stroke='lightgray' />
+                    <XAxis dataKey='date_of_year' />
+                    <YAxis />
+                    <Tooltip />
+                    <Line
+                      type='linear'
+                      dataKey='burglary'
+                      stroke='blue'
+                      dot={false}
+                    />
+                  </LineChart>
+                </Stack>
               </Stack>
             </Box>
           </Container>
@@ -168,7 +170,7 @@ export const PrintComponent = forwardRef((props, ref) => {
                 fontWeight: "bold",
               }}
             >
-              RealAssitPropertyReport|Page1 of 1 25
+              RealAssitPropertyReport | Page 1 of 25
             </Typography>
           </Stack>
         </Stack>
