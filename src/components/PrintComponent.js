@@ -17,6 +17,9 @@ import {
   Legend,
 } from "recharts";
 export const PrintComponent = forwardRef((props, ref) => {
+  const currentDate = new Date();
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = currentDate.toLocaleDateString(undefined, options);
   const data = [
     {
       date_of_year: "2011",
@@ -135,9 +138,39 @@ export const PrintComponent = forwardRef((props, ref) => {
             </Box>
           </Container>
         </Stack>
-        <Stack>
-          <Divider />
-          Footer
+        <Stack
+          sx={{
+            mt: 2,
+            display: "flex",
+          }}
+        >
+          <Divider
+            sx={{
+              color: "blue",
+              bgcolor: "blue",
+              height: "2px",
+            }}
+          />
+          <Stack
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              mt: 2,
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant='body1' color='blue' fontWeight='bold'>
+              Report Generated on {formattedDate}
+            </Typography>
+            <Typography
+              variant='body1'
+              sx={{
+                fontWeight: "bold",
+              }}
+            >
+              RealAssitPropertyReport|Page1 of 1 25
+            </Typography>
+          </Stack>
         </Stack>
       </Box>
     </div>
