@@ -1,7 +1,7 @@
 import { Box, Divider, Stack, Typography, Container } from "@mui/material";
-import React, { forwardRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchArrest } from "../redux/arrest/ArrestSlice";
+import React, { forwardRef } from "react";
+import { useSelector } from "react-redux";
+
 import {
   LineChart,
   Line,
@@ -11,18 +11,13 @@ import {
   Tooltip,
 } from "recharts";
 export const PrintComponent = forwardRef((props, ref) => {
-  const dispatch = useDispatch();
-  const { arrestStore, status } = useSelector((state) => state.arrest);
+  const { arrestStore } = useSelector((state) => state.arrest);
   const currentDate = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = currentDate.toLocaleDateString(undefined, options);
   const burglaryData = [];
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchArrest());
-    }
-  }, [dispatch, status]);
-  if (arrestStore.data) {
+
+  if (arrestStore.data !== undefined) {
     arrestStore.data.forEach((item) => {
       burglaryData.push({
         date_of_year: item.data_year,
@@ -30,9 +25,9 @@ export const PrintComponent = forwardRef((props, ref) => {
       });
     });
   }
-
+  console.log(burglaryData);
   return (
-    <div style={{ display: "block" }}>
+    <div style={{ display: "none" }}>
       <Box
         sx={{
           display: "flex",
@@ -69,10 +64,11 @@ export const PrintComponent = forwardRef((props, ref) => {
             <Box
               sx={{
                 bgcolor: "#f2f4f5",
-                height: "78vh",
+                height: "450px",
                 borderRadius: "35px",
-                width: "103%",
+                width: "106%",
                 mt: 4,
+                ml: -2,
               }}
             >
               <Typography
@@ -114,12 +110,12 @@ export const PrintComponent = forwardRef((props, ref) => {
                     backgroundColor: "white",
                     width: "90%",
                     my: 3,
-                    mx: 1,
+                    mr: 3,
                     borderRadius: "35px",
                   }}
                 >
                   <LineChart
-                    width={1000}
+                    width={650}
                     height={350}
                     data={burglaryData}
                     margin={{ top: 20, right: 30, bottom: 5 }}

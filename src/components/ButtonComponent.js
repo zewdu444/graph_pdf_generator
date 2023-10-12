@@ -13,6 +13,9 @@ function ButtonComponent() {
     <Stack spacing={2} direction='row'>
       <PrintComponent ref={componentRef} />
       <Button
+        sx={{
+          bgcolor: "black",
+        }}
         id='print-button'
         variant='contained'
         onClick={handlePrint}
