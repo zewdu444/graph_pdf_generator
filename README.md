@@ -32,12 +32,12 @@
 
 ## 📷 project screenshot <a name="screen-shoot"> </a>
 
-<img src="./screenshot/enrollment.png" alt="logo"
- width="600" height="700"
+<img src="./public/crime.png" alt="logo"
+ width="900" height="700"
   style="display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;"
+  width: 100%;"
   align="center"
 align-text="center"
 />
