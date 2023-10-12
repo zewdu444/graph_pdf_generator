@@ -56,7 +56,7 @@ align-text="center"
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- <a href="https://student-enrollment.onrender.com/">Live Link</a>
+- <a href="https://graph-pdf-generator.onrender.com/">Live Link</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
